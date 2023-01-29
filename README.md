@@ -1,0 +1,5 @@
+# video_translate_with_whisper
+このリポジトリはyoutube_dlなどでダウンロードした英語の音声をwhisperを使って作成されたsrtファイルの英語字幕を\
+みんなの自動翻訳@TexTra APIやDeepLのAPIを利用して翻訳するスクリプトを載せたリポジトリである。
+## TO DO
+DeepL翻訳に合わせたスクリプトを書く
