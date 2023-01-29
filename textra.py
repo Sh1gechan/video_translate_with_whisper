@@ -17,30 +17,26 @@ source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
 # srtファイルの読み込み
 with open(source_file, "r") as f:
     lines = f.readlines()
+# 初期化
 # 新しいsrtファイルを格納するためのリスト
 new_srt = []
-
-# 初期化
+# タイムスタンプごとに記録されている文章を
+# ピリオドまたは疑問符までで結合し、
+# 一つの文章としたものを並べたリスト
 en_list = []
+# en_listにappendするための変数
 temp = ""
+# タイムスタンプごとの文章を記録したリスト
 sentence_list = []
 # 文字数をカウントするためのリスト
 word_count = []
-
-# 文章の割合を保存するリストを用意
+# 文章の割合を保存するリスト
 ratio = []
 # ratioの集まりをあらわすリスト
-
 ratio_list = []
 
 print("前処理")
-# 各行に対して処理
 for i in tqdm(range(0, len(lines), 4)):
-    # 番号の設定
-    # number = lines[i]
-    # タイムスタンプの設定
-    # time_stamp = lines[i+1]
-    # 字幕の文章取り出し
     sentence = lines[i+2]
     sentence_list.append(lines[i+2])
 

@@ -1,7 +1,59 @@
 import re
-import requests
-from requests_oauthlib import OAuth1
+import deepl
 from tqdm import tqdm
+
+
+
+# API Keyを入力
+API_KEY:str = 'd6d7dfdd-c620-50e3-5a22-bd513527f39a:fx'
+
+# 翻訳元のファイル名を入力
+source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
+
+
+
+# イニシャライズ
+translator = deepl.Translator(API_KEY)
+
+
+# # srtファイルの読み込み
+# with open(source_file, "r") as f:
+#     lines = f.readlines()
+# # 新しいsrtファイルを格納するためのリスト
+# new_srt = []
+
+
+# # 各行に対して処理
+# for i in tqdm(range(0, len(lines), 4)):
+#     # 時間の設定
+#     time = lines[i+1]
+#     # 字幕の文章を結合
+#     sentence = lines[i+2]
+#     j = i + 2
+#     end_of_sentence = False
+#     while not end_of_sentence:
+#         if lines[j].endswith("."):
+#             sentence += lines[j]
+#             end_of_sentence = True
+#         elif j == len(lines) - 1:
+#             sentence += lines[j]
+#             end_of_sentence = True
+#         else:
+#             sentence += lines[j]
+#             j += 1
+#     # 翻訳
+#     translated_sentence = translator.translate_text(sentence, source_lang="EN", target_lang="JA")
+#     # 文章の長さの分割
+#     sentences = split_sentences(translated_sentence.text)
+#     for s in sentences:
+#         new_srt.append(time)
+#         new_srt.append(s + "\n")
+#         new_srt.append("\n")
+
+
+# # 新しいsrtファイルの書き込み
+# with open("translated_subtitle.srt", "w") as f:
+#     f.writelines(new_srt)
 
 """
 このスクリプトは、whisperにより文字起こしされた字幕をみんなの自動翻訳@deepl APIにより日本語に翻訳し、字幕を再生成するスクリプトである。
@@ -20,30 +72,26 @@ source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
 # srtファイルの読み込み
 with open(source_file, "r") as f:
     lines = f.readlines()
+# 初期化
 # 新しいsrtファイルを格納するためのリスト
 new_srt = []
-
-# 初期化
+# タイムスタンプごとに記録されている文章を
+# ピリオドまたは疑問符までで結合し、
+# 一つの文章としたものを並べたリスト
 en_list = []
+# en_listにappendするための変数
 temp = ""
+# タイムスタンプごとの文章を記録したリスト
 sentence_list = []
 # 文字数をカウントするためのリスト
 word_count = []
-
-# 文章の割合を保存するリストを用意
+# 文章の割合を保存するリスト
 ratio = []
 # ratioの集まりをあらわすリスト
-
 ratio_list = []
 
 print("前処理")
-# 各行に対して処理
 for i in tqdm(range(0, len(lines), 4)):
-    # 番号の設定
-    # number = lines[i]
-    # タイムスタンプの設定
-    # time_stamp = lines[i+1]
-    # 字幕の文章取り出し
     sentence = lines[i+2]
     sentence_list.append(lines[i+2])
 
