@@ -1,0 +1,10 @@
+# audio フォルダはあげない
+audio/
+# videoフォルダは上げない
+video/
+# 字幕ファイルはあげない
+*.srt
+*.json
+*.tsv
+*.txt
+*.vtt
