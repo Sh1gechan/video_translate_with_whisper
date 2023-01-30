@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 
 # API Keyを入力
-API_KEY:str = 'd6d7dfdd-c620-50e3-5a22-bd513527f39a:fx'
+API_KEY:str = input('Enter your api_key: ')
 
 # 翻訳元のファイル名を入力
 source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
@@ -50,10 +50,6 @@ translator = deepl.Translator(API_KEY)
 #         new_srt.append(s + "\n")
 #         new_srt.append("\n")
 
-
-# # 新しいsrtファイルの書き込み
-# with open("translated_subtitle.srt", "w") as f:
-#     f.writelines(new_srt)
 
 """
 このスクリプトは、whisperにより文字起こしされた字幕をみんなの自動翻訳@deepl APIにより日本語に翻訳し、字幕を再生成するスクリプトである。
@@ -122,15 +118,17 @@ print("翻訳中")
 translated_s = []
 # 翻訳を行う部分
 for i, s in tqdm(enumerate(en_list)):
-    data = {
-        'key': api_key,
-        'name': name,
-        'type': 'json',
-        'text': s,
-        'split': '0',
-    }
-    result = requests.post(url, data=data, auth=OAuth1(api_key, api_secret)).json()
-    translated_s.append(result['resultset']['result']['text'])
+    translated_sentence = translator.translate_text(s, source_lang="EN", target_lang="JA")
+    translated_s.append(translated_sentence)
+    # data = {
+    #     'key': api_key,
+    #     'name': name,
+    #     'type': 'json',
+    #     'text': s,
+    #     'split': '0',
+    # }
+    # result = requests.post(url, data=data, auth=OAuth1(api_key, api_secret)).json()
+    # translated_s.append(result['resultset']['result']['text'])
 
 print("ファイル出力中")
 # 翻訳後の文章をsplitしてタイムスタンプの後ろに挿入するためのリスト
