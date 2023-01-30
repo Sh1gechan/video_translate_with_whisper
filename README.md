@@ -11,9 +11,6 @@ ffmpegをインストールしたら、以下のコマンドをCMD等で打ち�
 
 ## whisper
 
-### インストール
-```pip install git+https://github.com/openai/whisper.git```
-
 ### 使い方
 ```whisper (音源のファイル名) --model medium --language (音源で使われている言語)```
 
