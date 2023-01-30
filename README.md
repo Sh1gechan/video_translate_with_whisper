@@ -13,6 +13,9 @@ srtファイルの英語字幕をみんなの自動翻訳@TexTra APIやDeepLのA
 ![image](https://user-images.githubusercontent.com/76240954/215337724-60e68120-85ba-4d6e-9c9a-5de81839910e.png)
 引用元：https://github.com/openai/whisper
 
+## 動画の再生方法
+VLC Media Playerを用いて再生できます。
+動画を再生させる際、VLC Media Playerでsrtファイルを読みこんでください。
 
 ## TO DO
 - [ ] DeepL翻訳に合わせたスクリプトを書く
