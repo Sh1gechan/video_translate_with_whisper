@@ -2,7 +2,13 @@ import re
 import deepl
 from tqdm import tqdm
 
+"""
+このスクリプトは、whisperにより文字起こしされた字幕をdeepl APIにより日本語に翻訳し、字幕を再生成するスクリプトである。
+このコードは未完成です。
+"""
 
+# TO DO 
+# DeepL翻訳に対応させたスクリプトに書き換える
 
 # API Keyを入力
 API_KEY:str = input('Enter your api_key: ')
@@ -10,53 +16,8 @@ API_KEY:str = input('Enter your api_key: ')
 # 翻訳元のファイル名を入力
 source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
 
-
-
 # イニシャライズ
 translator = deepl.Translator(API_KEY)
-
-
-# # srtファイルの読み込み
-# with open(source_file, "r") as f:
-#     lines = f.readlines()
-# # 新しいsrtファイルを格納するためのリスト
-# new_srt = []
-
-
-# # 各行に対して処理
-# for i in tqdm(range(0, len(lines), 4)):
-#     # 時間の設定
-#     time = lines[i+1]
-#     # 字幕の文章を結合
-#     sentence = lines[i+2]
-#     j = i + 2
-#     end_of_sentence = False
-#     while not end_of_sentence:
-#         if lines[j].endswith("."):
-#             sentence += lines[j]
-#             end_of_sentence = True
-#         elif j == len(lines) - 1:
-#             sentence += lines[j]
-#             end_of_sentence = True
-#         else:
-#             sentence += lines[j]
-#             j += 1
-#     # 翻訳
-#     translated_sentence = translator.translate_text(sentence, source_lang="EN", target_lang="JA")
-#     # 文章の長さの分割
-#     sentences = split_sentences(translated_sentence.text)
-#     for s in sentences:
-#         new_srt.append(time)
-#         new_srt.append(s + "\n")
-#         new_srt.append("\n")
-
-
-"""
-このスクリプトは、whisperにより文字起こしされた字幕をみんなの自動翻訳@deepl APIにより日本語に翻訳し、字幕を再生成するスクリプトである。
-このコードは未完成です。
-"""
-# TO DO 
-# DeepL翻訳に対応させたスクリプトに書き換える
 
 
 # srtファイルの読み込み
@@ -114,15 +75,7 @@ translated_s = []
 for i, s in tqdm(enumerate(en_list)):
     translated_sentence = translator.translate_text(s, source_lang="EN", target_lang="JA")
     translated_s.append(translated_sentence)
-    # data = {
-    #     'key': api_key,
-    #     'name': name,
-    #     'type': 'json',
-    #     'text': s,
-    #     'split': '0',
-    # }
-    # result = requests.post(url, data=data, auth=OAuth1(api_key, api_secret)).json()
-    # translated_s.append(result['resultset']['result']['text'])
+
 
 print("ファイル出力中")
 # 翻訳後の文章をsplitしてタイムスタンプの後ろに挿入するためのリスト
