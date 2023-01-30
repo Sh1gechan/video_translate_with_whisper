@@ -1,0 +1,7 @@
+###### Requirements without Version Specifiers ######`
+openai-whisper # whisperのインストール
+tqdm  # 進行状況確認
+deepl # from : https://github.com/DeepLcom/deepl-python
+###### textra.pyの実行のため ######`
+requests 
+requests_oauthlib
