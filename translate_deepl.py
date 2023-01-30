@@ -58,12 +58,6 @@ translator = deepl.Translator(API_KEY)
 # TO DO 
 # DeepL翻訳に対応させたスクリプトに書き換える
 
-name = input('Enter your name: ')
-api_key = input('Enter your api_key: ')
-api_secret = input('Enter your secret: ')
-url = input('Enter your url: ')
-
-source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
 
 # srtファイルの読み込み
 with open(source_file, "r") as f:

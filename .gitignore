@@ -8,3 +8,5 @@ video/
 *.tsv
 *.txt
 *.vtt
+#__pycache__
+__pycache__/
