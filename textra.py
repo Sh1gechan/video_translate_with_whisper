@@ -1,4 +1,3 @@
-import re
 import requests
 from requests_oauthlib import OAuth1
 from tqdm import tqdm

@@ -1,4 +1,3 @@
-import re
 import deepl
 from tqdm import tqdm
 
