@@ -72,7 +72,7 @@ print("翻訳中")
 translated_s = []
 # 翻訳を行う部分
 for i, s in tqdm(enumerate(en_list)):
-    translated_sentence = translator.translate_text(s, source_lang="EN", target_lang="JA")
+    translated_sentence = str(translator.translate_text(s, source_lang="EN", target_lang="JA"))
     translated_s.append(translated_sentence)
 
 
