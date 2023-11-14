@@ -1,19 +1,37 @@
 import deepl
 from tqdm import tqdm
+from janome.tokenizer import Tokenizer
 
 """
 このスクリプトは、whisperにより文字起こしされた字幕をdeepl APIにより日本語に翻訳し、字幕を再生成するスクリプトである。
 このコードは未完成です。
 """
 
-# TO DO 
-# DeepL翻訳に対応させたスクリプトに書き換える
+
+def adjust_subtitle_length(subtitle, max_length=32):
+    """
+    字幕の長さを調整します。改行位置は形態素解析により決定されます。
+    """
+    tokenizer = Tokenizer()
+    tokens = tokenizer.tokenize(subtitle)
+    current_length = 0
+    new_subtitle = ""
+
+    for token in tokens:
+        token_length = len(token.surface)
+        if current_length + token_length > max_length:
+            new_subtitle += '\n'
+            current_length = 0
+        new_subtitle += token.surface
+        current_length += token_length
+
+    return new_subtitle
 
 # API Keyを入力
 API_KEY:str = input('Enter your api_key: ')
 
 # 翻訳元のファイル名を入力
-source_file:str = r'./Deep_Ensembles_A_Loss_Landscape_Perspective.srt'
+source_file:str = r'./Beyond_neural_scaling_laws_Paper_Explained_1080pFHR.srt'
 
 # イニシャライズ
 translator = deepl.Translator(API_KEY)
@@ -25,9 +43,7 @@ with open(source_file, "r") as f:
 # 初期化
 # 新しいsrtファイルを格納するためのリスト
 new_srt = []
-# タイムスタンプごとに記録されている文章を
-# ピリオドまたは疑問符までで結合し、
-# 一つの文章としたものを並べたリスト
+# タイムスタンプごとに記録されている文章をピリオドまたは疑問符までで結合し、一つの文章としたものを並べたリスト
 en_list = []
 # en_listにappendするための変数
 temp = ""
@@ -71,34 +87,21 @@ sentence_list_length = [len(l) for l in sentence_list]
 print("翻訳中")
 translated_s = []
 # 翻訳を行う部分
-for i, s in tqdm(enumerate(en_list)):
-    translated_sentence = str(translator.translate_text(s, source_lang="EN", target_lang="JA"))
-    translated_s.append(translated_sentence)
-
+for s in tqdm(en_list):
+    translated_sentence = translator.translate_text(s, source_lang="EN", target_lang="JA").text
+    # ここで形態素解析による調整を行う
+    adjusted_sentence = adjust_subtitle_length(translated_sentence)
+    translated_s.append(adjusted_sentence)
 
 print("ファイル出力中")
-# 翻訳後の文章をsplitしてタイムスタンプの後ろに挿入するためのリスト
-split_translated_s = []
-for i in range(len(translated_s)):
-    start = 0 #開始位置の設定
-    for j in range(len(ratio_list[i])):
-        length = int(len(translated_s[i]) * ratio_list[i][j]) # 割合を取り出す, 割合に従って長さを決める
-        split_translated_s.append(translated_s[i][start:start+length]) # 分割した文章を追加
-        start += length
-
-
-for i in tqdm(range(len(split_translated_s))):
-    #番号の設定
+# 翻訳された各セグメントを、元のタイムスタンプと結合
+for i in tqdm(range(len(translated_s))):
     number = lines[i*4]
-    # タイムスタンプの設定
     time_stamp = lines[i*4+1]
     new_srt.append(number)
     new_srt.append(time_stamp)
-    # ratioからとりだした割合をかけ、タイムスタンプの後ろに挿入
-    new_srt.append(split_translated_s[i])
-    new_srt.append("\n")
-    new_srt.append("\n")
-   
+    new_srt.append(translated_s[i] + "\n\n")
+
 # 新しいsrtファイルの書き込み
 with open("translated_subtitle.srt", "w") as f:
     f.writelines(new_srt)
